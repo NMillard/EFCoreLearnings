@@ -9,7 +9,7 @@ namespace DataLayer.Configurations {
         public void Configure(EntityTypeBuilder<Author> builder) {
             builder.ToTable("Authors"); // Not required, but I like to explicitly state the table name
             
-            builder.HasKey("id") // Tell EF to find the field called "id"
+            builder.HasKey("id") // Tell EF to find the field called "id" and use it as primary key
                 .HasName("PK_Authors"); // Primary key object name in the database (NOT column name)
             
             builder.Property(author => author.Name)
