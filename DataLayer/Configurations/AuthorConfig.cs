@@ -20,18 +20,23 @@ namespace DataLayer.Configurations {
             // Tell EF to find the navigation property and use this for the books collection
             builder.Metadata
                 .FindNavigation(nameof(Author.Books))
-                .SetPropertyAccessMode(PropertyAccessMode.Field); // Convention based -> will find field named "books"
+                // Convention based -> will find field named "books"
+                .SetPropertyAccessMode(PropertyAccessMode.Field);
 
             builder.Property(author => author.Status)
                 .HasConversion(
                     value => value.ToString(), // How to convert when storing
                     convertedValue => Enum.Parse<AuthorStatus>(convertedValue)); // How to convert value from database when retrieving 
 
-            // "RecommendationScore" is an owned type, and will only ever appear as a navigation property
-            // on the "Author" type.
-            builder.OwnsOne<RecommendationScore>(nameof(Author.RecommendationScore), recommendationBuilder => {
+            // "RecommendationScore" is an owned type, and will only ever appear
+            // as a navigation property on the "Author" type.
+            builder.OwnsOne<RecommendationScore>(
+                navigationName: nameof(Author.RecommendationScore),
+                buildAction: recommendationBuilder => {
                 recommendationBuilder.ToTable("AuthorRecommendationScores");
-                recommendationBuilder.Property(ar => ar.Score); // Required because "Score" has not setter
+                
+                // Required because "Score" has not setter
+                recommendationBuilder.Property(ar => ar.Score);
             });
         }
     }

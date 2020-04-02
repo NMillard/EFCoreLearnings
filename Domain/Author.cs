@@ -4,11 +4,11 @@ using System.Collections.Generic;
 namespace Domain {
     public class Author {
         private string id;
-        private readonly List<Book> books;
+        private readonly HashSet<Book> books;
 
         public Author(string name) {
             id = Guid.NewGuid().ToString("D");
-            books = new List<Book>();
+            books = new HashSet<Book>();
             Name = name;
         }
 
@@ -18,6 +18,27 @@ namespace Domain {
 
         public AuthorStatus Status { get; private set; }
 
-        public IReadOnlyList<Book> Books => books;
+        public IReadOnlyCollection<Book> Books => books;
+
+        public void UpdateName(string name) {
+            // logic to ensure the name is valid
+            Name = name;
+        }
+        
+        public void AddBook(Book book) {
+            // Some logic to handle whether a book
+            // can be added or not
+            books.Add(book);
+        }
+
+        public void RemoveBook(Book book) {
+            // Logic
+            books.Remove(book);
+        }
+
+        public void UpdateScore(RecommendationScore score) {
+            // logic
+            RecommendationScore = score;
+        }
     }
 }

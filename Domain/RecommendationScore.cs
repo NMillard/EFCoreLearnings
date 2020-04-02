@@ -1,18 +1,20 @@
 namespace Domain {
+    // Example of a class used to create value objects
     public sealed class RecommendationScore {
         public RecommendationScore(int score) {
             Score = score;
         }
         
-        public int Score { get; }
+        public int Score { get; } // No setter
         
-        public static bool operator ==(RecommendationScore right, RecommendationScore left) {
-            return object.Equals(right, left);
-        }
+        // Methods to check for equality
+        public static bool operator ==(
+            RecommendationScore right,
+            RecommendationScore left) => object.Equals(right, left);
 
-        public static bool operator !=(RecommendationScore right, RecommendationScore left) {
-            return !(right == left);
-        }
+        public static bool operator !=(
+            RecommendationScore right,
+            RecommendationScore left) => !(right == left);
 
         public override bool Equals(object obj) {
             if (!(obj is RecommendationScore recommendationScore)) return false;
@@ -21,8 +23,6 @@ namespace Domain {
             return recommendationScore.Score == this.Score;
         }
 
-        public override int GetHashCode() {
-            return this.Score.GetHashCode();
-        }
+        public override int GetHashCode() => this.Score.GetHashCode();
     }
 }
